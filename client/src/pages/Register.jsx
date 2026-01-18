@@ -26,6 +26,8 @@ const Register = () => {
             localStorage.setItem('token', data.token);
             if (data.role === 'farmer') {
                 navigate('/dashboard');
+            } else if (data.role === 'buyer') {
+                navigate('/marketplace');
             } else {
                 navigate('/');
             }

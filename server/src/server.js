@@ -12,6 +12,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 import productRoutes from "./routes/products/product.routes.js";
 app.use("/api/products", productRoutes);
+import orderRoutes from "./routes/orders/order.routes.js";
+app.use("/api/orders", orderRoutes);
 
 app.get("/", (req, res) => {
    res.send("Server is running");

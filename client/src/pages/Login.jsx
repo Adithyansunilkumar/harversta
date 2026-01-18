@@ -18,6 +18,8 @@ const Login = () => {
             // Optionally save user info
             if (data.role === 'farmer') {
                 navigate('/dashboard');
+            } else if (data.role === 'buyer') {
+                navigate('/marketplace');
             } else {
                 navigate('/');
             }

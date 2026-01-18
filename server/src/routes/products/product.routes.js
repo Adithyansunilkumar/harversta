@@ -13,6 +13,20 @@ const isFarmer = (req, res, next) => {
     }
 };
 
+// @desc    Get all products (Marketplace)
+// @route   GET /api/products
+// @access  Private (All active users)
+router.get('/', protect, async (req, res) => {
+    try {
+        const products = await Product.find({})
+            .populate('farmer', 'name')
+            .sort({ createdAt: -1 });
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+});
+
 // @desc    Create a new product
 // @route   POST /api/products
 // @access  Private (Farmer only)

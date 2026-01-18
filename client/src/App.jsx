@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import FarmerDashboard from './pages/FarmerDashboard';
+import BuyerMarketplace from './pages/BuyerMarketplace';
+import BuyerOrders from './pages/BuyerOrders';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -24,8 +26,6 @@ const App = () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          // Note: using fetch here to avoid circular dep if we used api instance that might rely on something else, 
-          // or just to keep it simple as it was before.
           const res = await fetch('http://localhost:5000/api/auth/profile', {
             headers: { 'Authorization': `Bearer ${token}` }
           });
@@ -54,6 +54,22 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <FarmerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/marketplace"
+            element={
+              <ProtectedRoute>
+                <BuyerMarketplace />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <BuyerOrders />
               </ProtectedRoute>
             }
           />
