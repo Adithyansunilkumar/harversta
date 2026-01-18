@@ -74,84 +74,96 @@ const AddProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">{editingProduct ? t('edit') + ' ' + t('addProduct').split(' ')[1] : t('addProduct')}</h2>
-            {error && <p className="text-red-500 mb-4">{error}</p>}
+        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8 transition-all hover:shadow-md">
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-900">{editingProduct ? t('edit') + ' ' + t('addProduct').split(' ')[1] : t('addProduct')}</h2>
+                {loading && <span className="text-sm text-green-600 animate-pulse font-medium">{t('loading')}...</span>}
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label className="block text-gray-700 mb-2">{t('cropName')}</label>
+            {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-6 border border-red-100">{error}</div>}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">{t('cropName')}</label>
                     <input
                         type="text"
                         name="cropName"
                         value={formData.cropName}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
+                        placeholder="e.g. Organic Tomatoes"
                         required
                     />
                 </div>
-                <div>
-                    <label className="block text-gray-700 mb-2">{t('quantityKg')}</label>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">{t('quantityKg')}</label>
                     <input
                         type="number"
                         name="quantityKg"
                         value={formData.quantityKg}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
+                        placeholder="0"
                         required
                     />
                 </div>
-                <div>
-                    <label className="block text-gray-700 mb-2">{t('pricePerKg')}</label>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">{t('pricePerKg')}</label>
                     <input
                         type="number"
                         name="pricePerKg"
                         value={formData.pricePerKg}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
+                        placeholder="0.00"
                         required
                     />
                 </div>
-                <div>
-                    <label className="block text-gray-700 mb-2">{t('harvestDate')}</label>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">{t('harvestDate')}</label>
                     <input
                         type="date"
                         name="harvestDate"
                         value={formData.harvestDate}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
                         required
                     />
                 </div>
-                <div className="md:col-span-2">
-                    <label className="block text-gray-700 mb-2">{t('location')}</label>
+                <div className="md:col-span-2 space-y-2">
+                    <label className="text-sm font-medium text-gray-700">{t('location')}</label>
                     <input
                         type="text"
                         name="location"
                         value={formData.location}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
+                        placeholder="Enter farm location"
                         required
                     />
                 </div>
-                <div className="md:col-span-2 flex items-center">
-                    <input
-                        type="checkbox"
-                        name="isGroupEligible"
-                        checked={formData.isGroupEligible}
-                        onChange={handleChange}
-                        className="mr-2 h-4 w-4"
-                        id="isGroupEligible"
-                    />
-                    <label htmlFor="isGroupEligible" className="text-gray-700">{t('isGroupEligible')}</label>
+                <div className="md:col-span-2">
+                    <div className="flex items-center p-4 bg-purple-50 rounded-xl border border-purple-100">
+                        <input
+                            type="checkbox"
+                            name="isGroupEligible"
+                            checked={formData.isGroupEligible}
+                            onChange={handleChange}
+                            className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded transition-all"
+                            id="isGroupEligible"
+                        />
+                        <label htmlFor="isGroupEligible" className="ml-3 block text-sm font-medium text-purple-900">
+                            {t('isGroupEligible')}
+                        </label>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex gap-4 mt-6">
+            <div className="flex gap-4 mt-8">
                 <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-200"
+                    className="flex-1 bg-gray-900 text-white py-3 px-6 rounded-xl font-medium hover:bg-gray-800 focus:ring-4 focus:ring-gray-200 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-gray-200"
                 >
                     {loading ? t('loading') : (editingProduct ? t('save') : t('submit'))}
                 </button>
@@ -159,7 +171,7 @@ const AddProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="flex-1 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-200"
+                        className="flex-1 bg-white text-gray-700 py-3 px-6 border border-gray-200 rounded-xl font-medium hover:bg-gray-50 focus:ring-4 focus:ring-gray-100 transition-all"
                     >
                         {t('cancel')}
                     </button>

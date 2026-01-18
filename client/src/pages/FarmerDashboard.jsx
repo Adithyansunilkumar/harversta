@@ -43,25 +43,29 @@ const FarmerDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-4 md:p-8 relative">
+        <div className="min-h-screen bg-gray-50/50 pb-12">
             <VoiceAssistant
                 isVisible={showVoice}
                 onClose={() => setShowVoice(false)}
                 onProductData={handleVoiceData}
             />
 
-            <div className="max-w-6xl mx-auto">
-                <header className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800">{t('farmerDashboard')}</h1>
-                    <div className="flex items-center gap-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <header className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{t('farmerDashboard')}</h1>
+                        <p className="text-gray-500 mt-1">Manage your products and listings</p>
+                    </div>
+                    <div className="flex items-center gap-3">
                         <button
                             onClick={() => setShowVoice(true)}
-                            className="bg-green-600 hover:bg-green-700 text-white p-2 rounded-full shadow-lg flex items-center gap-2 px-4 transition-all"
+                            className="group bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white p-3 md:px-6 md:py-3 rounded-full shadow-lg shadow-green-200 hover:shadow-xl hover:shadow-green-300 flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5"
                         >
-                            <Mic size={20} />
-                            <span className="hidden md:inline">{t('voiceAssistant')}</span>
+                            <div className="bg-white/20 p-1 rounded-full group-hover:scale-110 transition-transform">
+                                <Mic size={18} />
+                            </div>
+                            <span className="hidden md:inline font-medium">{t('voiceAssistant')}</span>
                         </button>
-                        <LanguageSelector />
                     </div>
                 </header>
 

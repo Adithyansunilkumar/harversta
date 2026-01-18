@@ -14,6 +14,8 @@ import productRoutes from "./routes/products/product.routes.js";
 app.use("/api/products", productRoutes);
 import orderRoutes from "./routes/orders/order.routes.js";
 app.use("/api/orders", orderRoutes);
+import groupRoutes from "./routes/groupListings/group.routes.js";
+app.use("/api/group-listings", groupRoutes);
 
 app.get("/", (req, res) => {
    res.send("Server is running");

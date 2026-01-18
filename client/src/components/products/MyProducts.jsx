@@ -37,6 +37,17 @@ const MyProducts = ({ refreshTrigger, onEdit }) => {
         }
     };
 
+    const handleJoinGroup = async (id) => {
+        try {
+            await api.post('/group-listings/join', { productId: id });
+            alert(t('joined'));
+            fetchProducts();
+        } catch (err) {
+            console.error(err);
+            alert(err.response?.data?.message || t('error'));
+        }
+    };
+
     if (loading) return <div className="text-center py-4">{t('loading')}</div>;
     if (error) return <div className="text-red-500 text-center py-4">{error}</div>;
 
@@ -45,26 +56,60 @@ const MyProducts = ({ refreshTrigger, onEdit }) => {
             <h2 className="text-2xl font-bold mb-4 text-gray-800">{t('myProducts')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
-                    <div key={product._id} className="bg-white p-6 rounded-lg shadow-md border hover:border-green-400 transition">
-                        <h3 className="text-xl font-bold text-gray-800 mb-2">{product.cropName}</h3>
-                        <p className="text-gray-600 mb-1"><span className="font-semibold">{t('quantityKg')}:</span> {product.quantityKg}</p>
-                        <p className="text-gray-600 mb-1"><span className="font-semibold">{t('pricePerKg')}:</span> {product.pricePerKg}</p>
-                        <p className="text-gray-600 mb-1"><span className="font-semibold">{t('location')}:</span> {product.location}</p>
-                        <p className="text-gray-600 mb-4"><span className="font-semibold">{t('harvestDate')}:</span> {new Date(product.harvestDate).toLocaleDateString()}</p>
+                    <div key={product._id} className="group bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-green-200 transition-all duration-300 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-12 -mt-12 z-0 transition-transform group-hover:scale-110"></div>
 
-                        <div className="flex space-x-2">
-                            <button
-                                onClick={() => onEdit(product)}
-                                className="flex-1 bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
-                            >
-                                {t('edit')}
-                            </button>
-                            <button
-                                onClick={() => handleDelete(product._id)}
-                                className="flex-1 bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
-                            >
-                                {t('delete')}
-                            </button>
+                        <div className="relative z-10">
+                            <h3 className="text-xl font-bold text-gray-900 mb-4 pr-4">{product.cropName}</h3>
+
+                            <div className="space-y-2 mb-6 text-sm text-gray-600">
+                                <div className="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                                    <span className="font-medium text-gray-500">{t('quantityKg')}</span>
+                                    <span className="font-bold text-gray-900">{product.quantityKg} kg</span>
+                                </div>
+                                <div className="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                                    <span className="font-medium text-gray-500">{t('pricePerKg')}</span>
+                                    <span className="font-bold text-green-700">${product.pricePerKg}</span>
+                                </div>
+                                <div className="flex justify-between items-center px-2">
+                                    <span className="text-gray-400">{t('location')}</span>
+                                    <span>{product.location}</span>
+                                </div>
+                                <div className="flex justify-between items-center px-2">
+                                    <span className="text-gray-400">{t('harvestDate')}</span>
+                                    <span>{new Date(product.harvestDate).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+
+                            <div className="flex gap-2 mb-3">
+                                <button
+                                    onClick={() => onEdit(product)}
+                                    className="flex-1 bg-white border border-gray-200 text-gray-700 py-2 px-3 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-sm font-medium"
+                                >
+                                    {t('edit')}
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(product._id)}
+                                    className="flex-1 bg-white border border-red-100 text-red-600 py-2 px-3 rounded-xl hover:bg-red-50 hover:border-red-200 transition-all text-sm font-medium"
+                                >
+                                    {t('delete')}
+                                </button>
+                            </div>
+
+                            <div>
+                                {!product.isGroupEligible ? (
+                                    <button
+                                        onClick={() => handleJoinGroup(product._id)}
+                                        className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2.5 px-3 rounded-xl hover:from-purple-700 hover:to-indigo-700 text-sm font-medium shadow-md shadow-purple-200 transition-all transform hover:-translate-y-0.5"
+                                    >
+                                        ✨ {t('enableGroupSelling')}
+                                    </button>
+                                ) : (
+                                    <div className="w-full bg-purple-50 text-purple-700 py-2.5 rounded-xl text-center text-sm font-semibold border border-purple-100">
+                                        ✓ {t('joined')} Group
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 ))}

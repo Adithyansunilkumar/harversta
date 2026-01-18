@@ -63,5 +63,12 @@
     "maxPrice": "Max Price",
     "farmerName": "Farmer",
     "noProductsFound": "No products found",
-    "logout": "Logout"
+    "logout": "Logout",
+    "enableGroupSelling": "Enable Group Selling",
+    "groupSellingDescription": "Join forces with other farmers to sell in bulk.",
+    "bulkListing": "Bulk Listing",
+    "groupPrice": "Group Price",
+    "bulkOrder": "Bulk Order",
+    "joinGroup": "Join Group",
+    "joined": "Joined Group"
 }
