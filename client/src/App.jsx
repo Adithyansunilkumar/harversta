@@ -1,15 +1,31 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LanguageSelector from './components/LanguageSelector';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import FarmerDashboard from './pages/FarmerDashboard';
+
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
 
 const App = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   React.useEffect(() => {
     const loadUserLanguage = async () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
+          // Note: using fetch here to avoid circular dep if we used api instance that might rely on something else, 
+          // or just to keep it simple as it was before.
           const res = await fetch('http://localhost:5000/api/auth/profile', {
             headers: { 'Authorization': `Bearer ${token}` }
           });
@@ -26,10 +42,24 @@ const App = () => {
   }, [i18n]);
 
   return (
-    <div className='h-dvh flex flex-col items-center justify-center gap-4 bg-gray-50'>
-      <h1 className="text-3xl font-bold text-gray-800">{t('welcome')}</h1>
-      <LanguageSelector />
-    </div>
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <FarmerDashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
