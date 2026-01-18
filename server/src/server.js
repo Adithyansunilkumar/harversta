@@ -13,14 +13,6 @@ app.get("/", (req, res) => {
    res.send("Server is running");
 });
 
-app.post("/api/test", (req, res) => {
-   const { name } = req.body;
-   res.status(201).json({
-      message: "request recieved",
-      name,
-   });
-});
-
 const PORT = process.env.PORT;
 
 const startServer = async () => {
