@@ -192,4 +192,66 @@ router.post('/order', protect, isBuyer, async (req, res) => {
     }
 });
 
+
+// @desc    Get groups where the farmer has joined
+// @route   GET /api/group-listings/my-groups
+// @access  Private (Farmer only)
+router.get('/my-groups', protect, isFarmer, async (req, res) => {
+    try {
+        const groups = await GroupListing.find({ 'farmers.farmer': req.user._id })
+            .populate('farmers.product'); // Populate to show details if needed
+        res.json(groups);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+});
+
+// @desc    Leave a group listing
+// @route   POST /api/group-listings/leave
+// @access  Private (Farmer only)
+router.post('/leave', protect, isFarmer, async (req, res) => {
+    try {
+        const { productId } = req.body;
+
+        // Find the group containing this product
+        const group = await GroupListing.findOne({ 'farmers.product': productId });
+
+        if (!group) {
+            return res.status(404).json({ message: 'Group not found or not in a group' });
+        }
+
+        // Remove the farmer/product entry
+        const originalLength = group.farmers.length;
+        group.farmers = group.farmers.filter(f => f.product.toString() !== productId);
+
+        if (group.farmers.length === originalLength) {
+            return res.status(400).json({ message: 'Product not found in this group' });
+        }
+
+        // Recalculate total quantity
+        group.totalQuantityKg = group.farmers.reduce((sum, f) => sum + f.quantityKg, 0);
+
+        // If no farmers left, mark inactive or delete? 
+        // Let's mark inactive if 0 quantity, or just keep it empty?
+        // Usually, if empty, we might want to clean it up, but for now just 0 qty is fine.
+        if (group.farmers.length === 0) {
+            group.totalQuantityKg = 0;
+            // Optional: group.isActive = false;
+        }
+
+        await group.save();
+
+        // Update product status
+        const product = await Product.findById(productId);
+        if (product) {
+            product.isGroupEligible = false;
+            await product.save();
+        }
+
+        res.json({ message: 'Left group successfully', group });
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+});
+
 export default router;

@@ -1,8 +1,11 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
     const { t } = useTranslation();
+    const { user, token } = useAuth();
+    const role = user?.role;
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section */}
@@ -24,12 +27,23 @@ const Home = () => {
                             Connect directly with local farmers, access fresh produce, and build a more sustainable food supply chain. No middlemen, just fair prices.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="/register" className="px-8 py-4 rounded-full bg-green-600 text-white font-bold text-lg hover:bg-green-700 hover:shadow-lg hover:shadow-green-200 transition-all transform hover:-translate-y-1">
-                                Join Harvesta
-                            </a>
-                            <a href="/login" className="px-8 py-4 rounded-full bg-white text-gray-700 border border-gray-200 font-bold text-lg hover:bg-gray-50 hover:border-gray-300 transition-all">
-                                Sign In
-                            </a>
+                            {!token ? (
+                                <>
+                                    <Link to="/register" className="px-8 py-4 rounded-full bg-green-600 text-white font-bold text-lg hover:bg-green-700 hover:shadow-lg hover:shadow-green-200 transition-all transform hover:-translate-y-1">
+                                        Join Harvesta
+                                    </Link>
+                                    <Link to="/login" className="px-8 py-4 rounded-full bg-white text-gray-700 border border-gray-200 font-bold text-lg hover:bg-gray-50 hover:border-gray-300 transition-all">
+                                        Sign In
+                                    </Link>
+                                </>
+                            ) : (
+                                <Link
+                                    to={role === 'farmer' ? '/dashboard' : '/marketplace'}
+                                    className="px-8 py-4 rounded-full bg-green-600 text-white font-bold text-lg hover:bg-green-700 hover:shadow-lg hover:shadow-green-200 transition-all transform hover:-translate-y-1"
+                                >
+                                    Go to {role === 'farmer' ? t('farmerDashboard') : t('buyerMarketplace')}
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>

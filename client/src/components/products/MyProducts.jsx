@@ -60,7 +60,14 @@ const MyProducts = ({ refreshTrigger, onEdit }) => {
                         <div className="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-12 -mt-12 z-0 transition-transform group-hover:scale-110"></div>
 
                         <div className="relative z-10">
-                            <h3 className="text-xl font-bold text-gray-900 mb-4 pr-4">{product.cropName}</h3>
+                            <h3 className="text-xl font-bold text-gray-900 mb-4 pr-4 flex items-center justify-between">
+                                {product.cropName}
+                                {product.isGroupEligible && (
+                                    <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-lg font-bold">
+                                        {t('inGroup')}
+                                    </span>
+                                )}
+                            </h3>
 
                             <div className="space-y-2 mb-6 text-sm text-gray-600">
                                 <div className="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
@@ -84,31 +91,24 @@ const MyProducts = ({ refreshTrigger, onEdit }) => {
                             <div className="flex gap-2 mb-3">
                                 <button
                                     onClick={() => onEdit(product)}
-                                    className="flex-1 bg-white border border-gray-200 text-gray-700 py-2 px-3 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-sm font-medium"
+                                    disabled={product.isGroupEligible}
+                                    className="flex-1 bg-white border border-gray-200 text-gray-700 py-2 px-3 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                    title={product.isGroupEligible ? "Leave group to edit" : ""}
                                 >
                                     {t('edit')}
                                 </button>
                                 <button
                                     onClick={() => handleDelete(product._id)}
-                                    className="flex-1 bg-white border border-red-100 text-red-600 py-2 px-3 rounded-xl hover:bg-red-50 hover:border-red-200 transition-all text-sm font-medium"
+                                    disabled={product.isGroupEligible}
+                                    className="flex-1 bg-white border border-red-100 text-red-600 py-2 px-3 rounded-xl hover:bg-red-50 hover:border-red-200 transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                    title={product.isGroupEligible ? "Leave group to delete" : ""}
                                 >
                                     {t('delete')}
                                 </button>
                             </div>
 
                             <div>
-                                {!product.isGroupEligible ? (
-                                    <button
-                                        onClick={() => handleJoinGroup(product._id)}
-                                        className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2.5 px-3 rounded-xl hover:from-purple-700 hover:to-indigo-700 text-sm font-medium shadow-md shadow-purple-200 transition-all transform hover:-translate-y-0.5"
-                                    >
-                                        ✨ {t('enableGroupSelling')}
-                                    </button>
-                                ) : (
-                                    <div className="w-full bg-purple-50 text-purple-700 py-2.5 rounded-xl text-center text-sm font-semibold border border-purple-100">
-                                        ✓ {t('joined')} Group
-                                    </div>
-                                )}
+
                             </div>
                         </div>
                     </div>

@@ -3,9 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import api from '../api/axios';
 
+import { useAuth } from '../context/AuthContext';
+
 const Login = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -14,7 +17,7 @@ const Login = () => {
         e.preventDefault();
         try {
             const { data } = await api.post('/auth/login', { email, password });
-            localStorage.setItem('token', data.token);
+            login(data.token);
             // Optionally save user info
             if (data.role === 'farmer') {
                 navigate('/dashboard');

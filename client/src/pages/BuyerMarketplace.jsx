@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import api from '../api/axios';
 import PlaceOrder from '../components/orders/PlaceOrder';
 import PlaceBulkOrder from '../components/orders/PlaceBulkOrder';
-import LanguageSelector from '../components/LanguageSelector';
 
 const BuyerMarketplace = () => {
     const { t } = useTranslation();
@@ -76,7 +75,6 @@ const BuyerMarketplace = () => {
                             <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{t('buyerMarketplace')}</h1>
                             <p className="text-gray-500 mt-2">Discover fresh produce from local farmers</p>
                         </div>
-                        <LanguageSelector />
                     </header>
 
                     <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -120,7 +118,7 @@ const BuyerMarketplace = () => {
                     <div className="mb-12">
                         <div className="flex items-center gap-3 mb-6">
                             <h2 className="text-2xl font-bold text-gray-900">{t('bulkListing')}</h2>
-                            <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Wholesale</span>
+                            <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">{t('bulkSupplyBadge')}</span>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {filteredGroups.map(group => (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AddProductForm from '../components/products/AddProductForm';
 import MyProducts from '../components/products/MyProducts';
+import GroupSellingSection from '../components/groups/GroupSellingSection';
 import LanguageSelector from '../components/LanguageSelector';
 import VoiceAssistant from '../components/voice/VoiceAssistant';
 import { useTranslation } from 'react-i18next';
@@ -78,6 +79,10 @@ const FarmerDashboard = () => {
                     <MyProducts
                         refreshTrigger={refreshKey}
                         onEdit={handleEdit}
+                    />
+                    <GroupSellingSection
+                        refreshTrigger={refreshKey}
+                        onGroupAction={handleProductAddedOrUpdated}
                     />
                 </main>
             </div>

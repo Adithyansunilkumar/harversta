@@ -143,19 +143,7 @@ const AddProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
                     />
                 </div>
                 <div className="md:col-span-2">
-                    <div className="flex items-center p-4 bg-purple-50 rounded-xl border border-purple-100">
-                        <input
-                            type="checkbox"
-                            name="isGroupEligible"
-                            checked={formData.isGroupEligible}
-                            onChange={handleChange}
-                            className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded transition-all"
-                            id="isGroupEligible"
-                        />
-                        <label htmlFor="isGroupEligible" className="ml-3 block text-sm font-medium text-purple-900">
-                            {t('isGroupEligible')}
-                        </label>
-                    </div>
+
                 </div>
             </div>
 

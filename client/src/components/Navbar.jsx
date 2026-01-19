@@ -3,29 +3,16 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../components/LanguageSelector';
 
+import { useAuth } from '../context/AuthContext';
 import { Menu, X, Sprout } from 'lucide-react';
 
 const Navbar = () => {
     const { t } = useTranslation();
-    const token = localStorage.getItem('token');
-    const [role, setRole] = useState(null);
+    const { user, token, logout } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        if (token) {
-            fetch('http://localhost:5000/api/auth/profile', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
-                .then(res => res.json())
-                .then(data => setRole(data.role))
-                .catch(err => console.error(err));
-        }
-    }, [token]);
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        window.location.href = '/login';
-    };
+    // Derived role
+    const role = user?.role;
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -62,7 +49,7 @@ const Navbar = () => {
                                 )}
                                 <div className="h-4 w-px bg-gray-200"></div>
                                 <button
-                                    onClick={handleLogout}
+                                    onClick={logout}
                                     className="text-red-500 hover:text-red-600 font-medium text-sm transition-colors hover:bg-red-50 px-2 py-1 rounded"
                                 >
                                     {t('logout')}
@@ -133,7 +120,7 @@ const Navbar = () => {
                                     </>
                                 )}
                                 <button
-                                    onClick={() => { handleLogout(); setIsOpen(false); }}
+                                    onClick={() => { logout(); setIsOpen(false); }}
                                     className="w-full text-left mt-2 block px-3 py-3 rounded-lg text-base font-medium text-red-500 hover:bg-red-50 transition-all"
                                 >
                                     {t('logout')}
