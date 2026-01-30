@@ -26,6 +26,7 @@ const ProtectedRoute = ({ children }) => {
 const App = () => {
   const { i18n } = useTranslation();
 
+  /*
   React.useEffect(() => {
     const loadUserLanguage = async () => {
       const token = localStorage.getItem('token');
@@ -45,6 +46,7 @@ const App = () => {
     };
     loadUserLanguage();
   }, [i18n]);
+  */
 
   return (
     <AuthProvider>

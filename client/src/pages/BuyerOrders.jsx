@@ -36,7 +36,7 @@ const BuyerOrders = () => {
         <div className="min-h-screen bg-gray-50 p-4 md:p-8">
             <header className="flex flex-col md:flex-row justify-between items-center mb-8 max-w-6xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-800 mb-4 md:mb-0">{t('myOrders')}</h1>
-                <LanguageSelector />
+                {/* <LanguageSelector /> */}
             </header>
 
             <div className="max-w-6xl mx-auto">

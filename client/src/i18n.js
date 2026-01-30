@@ -8,7 +8,7 @@ import ml from './locales/ml/translation.json';
 import ta from './locales/ta/translation.json';
 
 i18n
-    .use(LanguageDetector)
+    // .use(LanguageDetector)
     .use(initReactI18next)
     .init({
         resources: {
@@ -18,6 +18,7 @@ i18n
             ta: { translation: ta }
         },
         fallbackLng: 'en',
+        lng: 'en', // Force default language to English
         interpolation: {
             escapeValue: false
         }

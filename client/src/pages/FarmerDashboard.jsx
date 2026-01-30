@@ -45,11 +45,11 @@ const FarmerDashboard = () => {
 
     return (
         <div className="min-h-screen bg-gray-50/50 pb-12">
-            <VoiceAssistant
+            {/* <VoiceAssistant
                 isVisible={showVoice}
                 onClose={() => setShowVoice(false)}
                 onProductData={handleVoiceData}
-            />
+            /> */}
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <header className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
@@ -58,7 +58,7 @@ const FarmerDashboard = () => {
                         <p className="text-gray-500 mt-1">Manage your products and listings</p>
                     </div>
                     <div className="flex items-center gap-3">
-                        <button
+                        {/* <button
                             onClick={() => setShowVoice(true)}
                             className="group bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white p-3 md:px-6 md:py-3 rounded-full shadow-lg shadow-green-200 hover:shadow-xl hover:shadow-green-300 flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5"
                         >
@@ -66,7 +66,7 @@ const FarmerDashboard = () => {
                                 <Mic size={18} />
                             </div>
                             <span className="hidden md:inline font-medium">{t('voiceAssistant')}</span>
-                        </button>
+                        </button> */}
                     </div>
                 </header>
 
