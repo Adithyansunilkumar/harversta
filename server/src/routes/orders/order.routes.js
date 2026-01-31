@@ -7,10 +7,22 @@ const router = express.Router();
 
 // Middleware to check roles
 const checkRole = (role) => (req, res, next) => {
+    console.log('Checking role:', {
+        requiredRole: role,
+        userRole: req.user?.role,
+        userId: req.user?._id
+    });
+
     if (req.user && req.user.role === role) {
         next();
     } else {
-        res.status(403).json({ message: `Not authorized as a ${role}` });
+        console.error('Role check failed:', {
+            required: role,
+            actual: req.user?.role
+        });
+        res.status(403).json({
+            message: `Access denied. This action requires ${role} role. Your role: ${req.user?.role || 'unknown'}`
+        });
     }
 };
 
@@ -21,13 +33,33 @@ router.post('/', protect, checkRole('buyer'), async (req, res) => {
     try {
         const { productId, quantityKg } = req.body;
 
+        console.log('Creating order:', {
+            buyer: req.user._id,
+            buyerRole: req.user.role,
+            productId,
+            quantityKg
+        });
+
         const product = await Product.findById(productId);
 
         if (!product) {
+            console.error('Product not found:', productId);
             return res.status(404).json({ message: 'Product not found' });
         }
 
+        console.log('Product found:', {
+            id: product._id,
+            cropName: product.cropName,
+            availableQuantity: product.quantityKg,
+            requestedQuantity: quantityKg,
+            farmer: product.farmer
+        });
+
         if (product.quantityKg < quantityKg) {
+            console.error('Insufficient quantity:', {
+                available: product.quantityKg,
+                requested: quantityKg
+            });
             return res.status(400).json({ message: 'Insufficient quantity available' });
         }
 
@@ -43,16 +75,21 @@ router.post('/', protect, checkRole('buyer'), async (req, res) => {
         });
 
         const createdOrder = await order.save();
+        console.log('Order created successfully:', createdOrder._id);
 
-        // Optional: Update product quantity? 
-        // User requirements didn't explicitly say to deduct stock, but it's standard.
-        // For simplicity and matching "Snapshot price" logic implicitly, let's leave stock management 
-        // for now or simple deduction. Let's do simple deduction to be "functional".
+        // Update product quantity without triggering validation
+        // (Old products might not have the category field)
         product.quantityKg -= quantityKg;
-        await product.save();
+        await product.save({ validateBeforeSave: false });
+        console.log('Product quantity updated:', product.quantityKg);
 
         res.status(201).json(createdOrder);
     } catch (error) {
+        console.error('Error creating order:', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name
+        });
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 });
