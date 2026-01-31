@@ -107,5 +107,21 @@
     "directFromFarmers": "Direct from individual farmers",
     "organic": "Organic",
     "stock": "Stock",
-    "totalQuantity": "Total Quantity"
+    "totalQuantity": "Total Quantity",
+    "receivedOrders": "Received Orders",
+    "ordersCount": "Orders",
+    "noOrdersReceived": "No orders received yet.",
+    "tableProduct": "Product",
+    "tableBuyer": "Buyer",
+    "tableQuantity": "Quantity",
+    "tableTotalPrice": "Total Price",
+    "tableDate": "Date",
+    "tableStatus": "Status",
+    "tableActions": "Actions",
+    "accept": "Accept",
+    "reject": "Reject",
+    "waitingDelivery": "Waiting delivery confirmation",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "disputed": "Disputed"
 }

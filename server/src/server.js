@@ -20,6 +20,8 @@ import marketRoutes from "./routes/market/market.routes.js";
 app.use("/api/market", marketRoutes);
 import reviewRoutes from "./routes/reviews/review.routes.js";
 app.use("/api/reviews", reviewRoutes);
+import adminRoutes from "./routes/adminRoutes.js";
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
    res.send("Server is running");

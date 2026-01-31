@@ -25,6 +25,11 @@ const reviewSchema = new mongoose.Schema({
     comment: {
         type: String,
         trim: true
+    },
+    flagStatus: {
+        type: String,
+        enum: ['clean', 'flagged', 'hidden'],
+        default: 'clean'
     }
 }, {
     timestamps: true

@@ -42,33 +42,33 @@ const FarmerOrders = () => {
         }
     };
 
-    if (loading) return <div className="text-center py-8">Loading orders...</div>;
+    if (loading) return <div className="text-center py-8">{t('loading')}</div>;
 
     return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
             <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                <h2 className="text-xl font-bold text-gray-800">Received Orders</h2>
+                <h2 className="text-xl font-bold text-gray-800">{t('receivedOrders')}</h2>
                 <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                    {orders.length} Orders
+                    {orders.length} {t('ordersCount')}
                 </span>
             </div>
 
             {orders.length === 0 ? (
                 <div className="p-8 text-center text-gray-500">
-                    No orders received yet.
+                    {t('noOrdersReceived')}
                 </div>
             ) : (
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead className="bg-gray-50 text-gray-600 font-medium border-b border-gray-100">
                             <tr>
-                                <th className="p-4">Product</th>
-                                <th className="p-4">Buyer</th>
-                                <th className="p-4">Quantity</th>
-                                <th className="p-4">Total Price</th>
-                                <th className="p-4">Date</th>
-                                <th className="p-4">Status</th>
-                                <th className="p-4 text-center">Actions</th>
+                                <th className="p-4">{t('tableProduct')}</th>
+                                <th className="p-4">{t('tableBuyer')}</th>
+                                <th className="p-4">{t('tableQuantity')}</th>
+                                <th className="p-4">{t('tableTotalPrice')}</th>
+                                <th className="p-4">{t('tableDate')}</th>
+                                <th className="p-4">{t('tableStatus')}</th>
+                                <th className="p-4 text-center">{t('tableActions')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
@@ -86,7 +86,7 @@ const FarmerOrders = () => {
                                     </td>
                                     <td className="p-4">
                                         <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.status)}`}>
-                                            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                                            {t(order.status) || order.status}
                                         </span>
                                     </td>
                                     <td className="p-4">
@@ -97,24 +97,24 @@ const FarmerOrders = () => {
                                                         onClick={() => updateStatus(order._id, 'accepted')}
                                                         className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors shadow-sm"
                                                     >
-                                                        Accept
+                                                        {t('accept')}
                                                     </button>
                                                     <button
                                                         onClick={() => updateStatus(order._id, 'rejected')}
                                                         className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors shadow-sm"
                                                     >
-                                                        Reject
+                                                        {t('reject')}
                                                     </button>
                                                 </>
                                             )}
                                             {order.status === 'accepted' && (
                                                 <span className="text-xs text-gray-400 italic">
-                                                    Waiting delivery confirmation
+                                                    {t('waitingDelivery')}
                                                 </span>
                                             )}
                                             {order.status === 'delivered' && (
                                                 <span className="text-xs text-green-600 font-medium">
-                                                    ✓ Completed
+                                                    ✓ {t('completed')}
                                                 </span>
                                             )}
                                         </div>

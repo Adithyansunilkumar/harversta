@@ -26,6 +26,21 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    images: [{
+        type: String
+    }],
+    description: {
+        type: String
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected', 'flagged'],
+        default: 'pending'
+    },
     isGroupEligible: {
         type: Boolean,
         default: false

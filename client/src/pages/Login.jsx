@@ -19,7 +19,9 @@ const Login = () => {
             const { data } = await api.post('/auth/login', { email, password });
             login(data.token);
             // Optionally save user info
-            if (data.role === 'farmer') {
+            if (data.role === 'admin') {
+                navigate('/admin/dashboard');
+            } else if (data.role === 'farmer') {
                 navigate('/dashboard');
             } else if (data.role === 'buyer') {
                 navigate('/marketplace');
@@ -91,7 +93,7 @@ const Login = () => {
 
                         <button
                             type="submit"
-                            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all transform hover:-translate-y-0.5"
+                            className="btn-primary transform hover:-translate-y-0.5"
                         >
                             {t('login')}
                         </button>

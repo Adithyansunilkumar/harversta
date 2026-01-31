@@ -107,5 +107,21 @@
     "directFromFarmers": "व्यक्तिगत किसानों से सीधे",
     "organic": "जैविक",
     "stock": "स्टॉक",
-    "totalQuantity": "कुल मात्रा"
+    "totalQuantity": "कुल मात्रा",
+    "receivedOrders": "प्राप्त ऑर्डर",
+    "ordersCount": "ऑर्डर",
+    "noOrdersReceived": "अभी तक कोई ऑर्डर प्राप्त नहीं हुआ।",
+    "tableProduct": "उत्पाद",
+    "tableBuyer": "खरीदार",
+    "tableQuantity": "मात्रा",
+    "tableTotalPrice": "कुल कीमत",
+    "tableDate": "तारीख",
+    "tableStatus": "स्थिति",
+    "tableActions": "कार्रवाई",
+    "accept": "स्वीकार करें",
+    "reject": "अस्वीकार करें",
+    "waitingDelivery": "डिलीवरी की पुष्टि की प्रतीक्षा है",
+    "completed": "पूरा हुआ",
+    "cancelled": "रद्द किया गया",
+    "disputed": "विवादित"
 }

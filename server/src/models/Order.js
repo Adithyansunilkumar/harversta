@@ -30,8 +30,16 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'accepted', 'rejected', 'delivered'],
+        enum: ['pending', 'accepted', 'rejected', 'delivered', 'cancelled', 'disputed'],
         default: 'pending'
+    },
+    paymentStatus: {
+        type: String,
+        enum: ['pending', 'paid', 'failed', 'refunded'],
+        default: 'pending'
+    },
+    disputeReason: {
+        type: String
     }
 }, {
     timestamps: true

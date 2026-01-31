@@ -107,5 +107,21 @@
     "directFromFarmers": "വ്യക്തിഗത കർഷകരിൽ നിന്ന് നേരിട്ട്",
     "organic": "ഓർഗാനിക്",
     "stock": "സ്റ്റോക്ക്",
-    "totalQuantity": "മൊത്തം അളവ്"
+    "totalQuantity": "മൊത്തം അളവ്",
+    "receivedOrders": "ലഭിച്ച ഓർഡറുകൾ",
+    "ordersCount": "ഓർഡറുകൾ",
+    "noOrdersReceived": "ഇതുവരെ ഓർഡറുകളൊന്നും ലഭിച്ചിട്ടില്ല.",
+    "tableProduct": "ഉൽപ്പന്നം",
+    "tableBuyer": "വാങ്ങുന്നയാൾ",
+    "tableQuantity": "അളവ്",
+    "tableTotalPrice": "മൊത്തം വില",
+    "tableDate": "തീയതി",
+    "tableStatus": "സ്ഥിതി",
+    "tableActions": "പ്രവർത്തനങ്ങൾ",
+    "accept": "സ്വീകരിക്കുക",
+    "reject": "നിരസിക്കുക",
+    "waitingDelivery": "ഡെലിവറി സ്ഥിരീകരണത്തിനായി കാത്തിരിക്കുന്നു",
+    "completed": "പൂർത്തിയായി",
+    "cancelled": "റദ്ദാക്കി",
+    "disputed": "തർക്കത്തിലാണ്"
 }

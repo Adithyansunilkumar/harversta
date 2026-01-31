@@ -103,7 +103,7 @@ const Register = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all transform hover:-translate-y-0.5 mt-6">
+                        <button type="submit" className="btn-primary transform hover:-translate-y-0.5 mt-6">
                             {t('register')}
                         </button>
                     </form>
