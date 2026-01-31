@@ -58,7 +58,15 @@ export const getDashboardStats = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Error in getDashboardStats:', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name
+        });
+        res.status(500).json({
+            message: 'Error fetching dashboard stats',
+            error: error.message
+        });
     }
 };
 

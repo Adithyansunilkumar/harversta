@@ -22,6 +22,9 @@ import reviewRoutes from "./routes/reviews/review.routes.js";
 app.use("/api/reviews", reviewRoutes);
 import adminRoutes from "./routes/adminRoutes.js";
 app.use("/api/admin", adminRoutes);
+import testRoutes from "./routes/testRoutes.js";
+app.use("/api/test", testRoutes);
+
 
 app.get("/", (req, res) => {
    res.send("Server is running");

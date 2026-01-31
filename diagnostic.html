@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvesta Diagnostic Tool</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            color: #10b981;
+        }
+
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #059669;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .success {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            color: #065f46;
+        }
+
+        .error {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #991b1b;
+        }
+
+        .info {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            color: #1e40af;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔍 Harvesta Diagnostic Tool</h1>
+    <p>This tool will help identify what's causing the 500 error.</p>
+
+    <div class="test-section">
+        <h2>1. Check Local Storage</h2>
+        <button onclick="checkLocalStorage()">Check Auth Status</button>
+        <div id="storage-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test Server Connection</h2>
+        <button onclick="testEndpoint('/health', 'server-result')">Test Health Endpoint</button>
+        <button onclick="testEndpoint('/api/test/test', 'server-result')">Test Server</button>
+        <div id="server-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Database Connection</h2>
+        <button onclick="testEndpoint('/api/test/test-db', 'db-result')">Test Database</button>
+        <div id="db-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Test Authentication</h2>
+        <button onclick="testAuthEndpoint()">Test Auth</button>
+        <div id="auth-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Test Admin Endpoint</h2>
+        <button onclick="testAdminEndpoint()">Test Admin Stats</button>
+        <div id="admin-result"></div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:5000';
+
+        function checkLocalStorage() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            const resultDiv = document.getElementById('storage-result');
+
+            let result = '';
+            if (token) {
+                result += '✅ Token found: ' + token.substring(0, 30) + '...\n';
+            } else {
+                result += '❌ NO TOKEN FOUND - You need to log in!\n';
+            }
+
+            if (user) {
+                try {
+                    const userData = JSON.parse(user);
+                    result += '✅ User data found:\n' + JSON.stringify(userData, null, 2) + '\n';
+                    if (userData.role === 'admin') {
+                        result += '✅ User is an ADMIN\n';
+                    } else {
+                        result += '❌ User is NOT an admin (role: ' + userData.role + ')\n';
+                    }
+                } catch (e) {
+                    result += '❌ Invalid user data\n';
+                }
+            } else {
+                result += '❌ NO USER DATA FOUND\n';
+            }
+
+            resultDiv.className = 'result ' + (token && user ? 'success' : 'error');
+            resultDiv.textContent = result;
+        }
+
+        async function testEndpoint(endpoint, resultId) {
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.className = 'result info';
+            resultDiv.textContent = 'Testing...';
+
+            try {
+                const response = await fetch(BASE_URL + endpoint);
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = '✅ SUCCESS\n\nResponse:\n' + JSON.stringify(data, null, 2);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = '❌ FAILED\n\nStatus: ' + response.status + '\n\nResponse:\n' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ NETWORK ERROR\n\n' + error.message;
+            }
+        }
+
+        async function testAuthEndpoint() {
+            const token = localStorage.getItem('token');
+            const resultDiv = document.getElementById('auth-result');
+
+            if (!token) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ No token found. Please log in first.';
+                return;
+            }
+
+            resultDiv.className = 'result info';
+            resultDiv.textContent = 'Testing authentication...';
+
+            try {
+                const response = await fetch(BASE_URL + '/api/test/test-auth', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = '✅ AUTHENTICATION WORKING\n\nUser:\n' + JSON.stringify(data.user, null, 2);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = '❌ AUTH FAILED\n\nStatus: ' + response.status + '\n\nResponse:\n' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ ERROR\n\n' + error.message;
+            }
+        }
+
+        async function testAdminEndpoint() {
+            const token = localStorage.getItem('token');
+            const resultDiv = document.getElementById('admin-result');
+
+            if (!token) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ No token found. Please log in first.';
+                return;
+            }
+
+            resultDiv.className = 'result info';
+            resultDiv.textContent = 'Testing admin endpoint...';
+
+            try {
+                const response = await fetch(BASE_URL + '/api/admin/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = '✅ ADMIN ENDPOINT WORKING!\n\nStats:\n' + JSON.stringify(data, null, 2);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = '❌ ADMIN ENDPOINT FAILED\n\nStatus: ' + response.status + '\n\nError Message: ' + (data.message || data.error) + '\n\nFull Response:\n' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ ERROR\n\n' + error.message + '\n\nStack:\n' + error.stack;
+            }
+        }
+
+        // Auto-check on load
+        window.addEventListener('load', checkLocalStorage);
+    </script>
+</body>
+
+</html>

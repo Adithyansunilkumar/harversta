@@ -10,7 +10,9 @@ const AddProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
         pricePerKg: '',
         harvestDate: '',
         location: '',
-        isGroupEligible: false
+        isGroupEligible: false,
+        category: '',
+        description: ''
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -46,7 +48,9 @@ const AddProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
                 pricePerKg: editingProduct.pricePerKg,
                 harvestDate: editingProduct.harvestDate ? editingProduct.harvestDate.split('T')[0] : '',
                 location: editingProduct.location,
-                isGroupEligible: editingProduct.isGroupEligible
+                isGroupEligible: editingProduct.isGroupEligible,
+                category: editingProduct.category || '',
+                description: editingProduct.description || ''
             });
         } else {
             setFormData({
@@ -55,7 +59,9 @@ const AddProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
                 pricePerKg: '',
                 harvestDate: '',
                 location: '',
-                isGroupEligible: false
+                isGroupEligible: false,
+                category: '',
+                description: ''
             });
         }
     }, [editingProduct]);
@@ -85,7 +91,9 @@ const AddProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
                 pricePerKg: '',
                 harvestDate: '',
                 location: '',
-                isGroupEligible: false
+                isGroupEligible: false,
+                category: '',
+                description: ''
             });
             if (onProductAdded) onProductAdded();
         } catch (err) {
@@ -220,8 +228,36 @@ const AddProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
                         required
                     />
                 </div>
-                <div className="md:col-span-2">
 
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">{t('category')}</label>
+                    <select
+                        name="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all appearance-none"
+                        required
+                    >
+                        <option value="">{t('selectCategory') || 'Select Category'}</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Pulses">Pulses</option>
+                        <option value="Spices">Spices</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div className="md:col-span-2 space-y-2">
+                    <label className="text-sm font-medium text-gray-700">{t('description')}</label>
+                    <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
+                        placeholder="Describe your product..."
+                        rows="3"
+                    ></textarea>
                 </div>
             </div>
 
